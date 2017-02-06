@@ -30,15 +30,21 @@ gulp.task('html', function() {
 		.pipe(gulp.dest('www'));
 });
 
-gulp.task('styles', function() {
+gulp.task('assets', function() {
+	return gulp.src('assets/**')
+		.pipe(gulp.dest('www/assets'));
+});
 
-	gulp.src('styles/*.scss')
+gulp.task('sass', function() {
+	return gulp.src('styles/*.scss')
 		.pipe(sass.sync().on('error', sass.logError))
 		.pipe(rename(function(path) {
 			path.basename += '-temp';
 		}))
 		.pipe(gulp.dest('./styles'));
+});
 
+gulp.task('css', function() {
 	return gulp.src('styles/*.css')
 		.pipe(concatCss('bundle.css'))
 		.pipe(cleanCss({ compatibility: 'ie8' }))
@@ -59,11 +65,13 @@ gulp core tasks
 
 gulp.task('watch', function() {
 	gulp.watch('templates/*.pug', [ 'html' ]);
+	gulp.watch('assets/**', [ 'assets' ]);
 	gulp.watch('app/*.js', [ 'browserify' ]);
-	gulp.watch('styles/*.s?css', [ 'styles' ]);
+	gulp.watch('styles/*.scss', [ 'sass' ]);
+	gulp.watch('styles/*.css', [ 'css' ]);
 });
 
-gulp.task('render', [ 'html', 'browserify', 'styles' ], function() {
+gulp.task('render', [ 'html', 'assets', 'browserify', 'sass', 'css' ], function() {
 	exec('open http://localhost:8080');
 });
 
