@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 var Vue = require('vue');
 var VueRouter = require('vue-router');
@@ -8,3 +8,6 @@ var fs = require('browserify-fs');
 var path = require('path');
 
 console.log({ Vue, VueRouter, VueResource, fs });
+
+
+
