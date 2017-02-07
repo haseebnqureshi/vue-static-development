@@ -3,5 +3,11 @@ html
 		title Nonwebpack
 		link(rel="stylesheet", href="bundle.css")
 	body
-		h1 Nonwebpack
+
+		div#app 
+			h1 Hello!
+
+			transition(name="fade", mode="out-in")
+				router-view
+
 		script(src="bundle.js")

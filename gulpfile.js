@@ -21,6 +21,7 @@ var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
 var cleanCss = require('gulp-clean-css');
 var source = require('vinyl-source-stream');
+var vueify = require('vueify');
 
 gulp.task('html', function() {
 	return gulp.src('templates/*.pug')
@@ -44,7 +45,7 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest('./styles'));
 });
 
-gulp.task('css', function() {
+gulp.task('css', ['sass'], function() {
 	return gulp.src('styles/*.css')
 		.pipe(concatCss('bundle.css'))
 		.pipe(cleanCss({ compatibility: 'ie8' }))
@@ -53,6 +54,7 @@ gulp.task('css', function() {
 
 gulp.task('browserify', function() {
 	return browserify('app/main.js')
+		.transform(vueify)
 		.bundle()
 		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('www'));
@@ -67,11 +69,11 @@ gulp.task('watch', function() {
 	gulp.watch('templates/*.pug', [ 'html' ]);
 	gulp.watch('assets/**', [ 'assets' ]);
 	gulp.watch('app/*.js', [ 'browserify' ]);
-	gulp.watch('styles/*.scss', [ 'sass' ]);
-	gulp.watch('styles/*.css', [ 'css' ]);
+	gulp.watch('app/*.vue', [ 'browserify' ]);
+	gulp.watch('styles/*.s?css', [ 'css' ]);
 });
 
-gulp.task('render', [ 'html', 'assets', 'browserify', 'sass', 'css' ], function() {
+gulp.task('render', [ 'html', 'assets', 'browserify', 'css' ], function() {
 	exec('open http://localhost:8080');
 });
 
