@@ -5,19 +5,40 @@
 </style>
 
 <template lang="pug">
-	h2.red {{msg}} {{$route.params.id}}
+	div
+		h2.red {{msg}} {{$route.params.id}}
+		h3
+			a(v-bind:href="data.url", target="_blank") {{data.title}}
 </template>
 
 <script>
 	module.exports = {
 		data: function() {
 			return {
-				msg: 'List Item View! '
+				loading: false,
+				data: {},
+				url: '',
+				error: null,
+				msg: 'List Item View!'
 			}
 		},
+		created () {
+			this.fetchData();
+		},
 		watch: {
-			'$route': function(to, from) {
-
+			'$route': 'fetchData'
+		},
+		methods: {
+			fetchData () {
+				if (this.data.url) { return; }
+				this.loading = true;
+				this.$http.get(`https://hacker-news.firebaseio.com/v0/item/${this.$route.params.id}.json`).then(res => {
+					this.data = res.body;
+					this.loading = false;
+				}, res => {
+					this.error = res;
+					this.loading = false;
+				})
 			}
 		}
 	}
