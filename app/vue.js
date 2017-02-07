@@ -24,39 +24,28 @@ Configuring Routes
 
 var router = new VueRouter({
 	routes: [
-		{ path: '/', name: 'home', component: require('./home.vue') }
-	]
+		{ 
+			path: '/', 
+			name: 'home', 
+			component: require('./home.vue') 
+		},
+		{ 
+			path: '/list', 
+			name: 'list', 
+			component: require('./list.vue'),
+			// meta: { auth: true }
+		},
+		{
+			path: '/list/:id', 
+			name: 'list-item', 
+			component: require('./list-item.vue'),
+			// meta: { auth: true }
+		}
+	],
+	scrollBehavior: function(to, from, savedPosition) {
+		return savedPosition ? savedPosition : { x:0, y:0 };
+	}
 });
-
-// var router = new VueRouter({
-// 	routes: [
-// 		{ path: '/foo', name: 'foo', component: Components.Foo },
-// 		{ path: '/bar', name: 'bar', component: Components.Bar },
-// 		{ path: '/login', name: 'login', component: Components.Login },
-// 		{ path: '/user/:id', name: 'user', component: Components.User,
-// 			children: [
-// 				{
-// 					path: 'profile',
-// 					component: Components.UserProfile
-// 				},
-// 				{
-// 					path: 'account',
-// 					component: Components.UserAccount,
-// 					name: 'userAccount',
-// 					meta: { requiresAuth: true }
-// 				},
-// 				{
-// 					path: 'posts',
-// 					component: Components.UserPosts
-// 				}
-// 			] 
-// 		}
-// 	],
-// 	// mode: 'history',
-// 	scrollBehavior: function(to, from, savedPosition) {
-// 		return savedPosition ? savedPosition : { x:0, y:0 }
-// 	}
-// });
 
 
 /*===================
@@ -64,11 +53,8 @@ Configuring Middleware
 ====================*/
 
 router.beforeEach(function(to, from, next) {
-	console.log({ to, from, next });
-	if (to.meta.requiresAuth === true) {
-		next({
-			name: 'login'
-		});
+	if (to.meta.auth === true) {
+		return next({ name: 'home' });
 	}
 	next();
 });
