@@ -8,6 +8,7 @@
 	div
 		h2.red {{message}}
 		p Here are the top stories from HN. Sorry they're only by each story's id! Go click and explore.
+		button(@click="refresh") Refresh Stories
 		ul
 			li(v-for="item in data")
 				router-link(:to= "{ name: 'list-item', params: { id: item } }") {{item}}
@@ -40,6 +41,10 @@
 					this.error = res;
 					this.loading = false;
 				})
+			},
+			refresh () {
+				this.data = [];
+				this.fetchData();
 			}
 		}
 	}

@@ -17,7 +17,6 @@
 			return {
 				loading: false,
 				data: {},
-				url: '',
 				error: null,
 				msg: 'List Item View!'
 			}
@@ -30,7 +29,7 @@
 		},
 		methods: {
 			fetchData () {
-				if (this.data.url) { return; }
+				this.data = {};
 				this.loading = true;
 				this.$http.get(`https://hacker-news.firebaseio.com/v0/item/${this.$route.params.id}.json`).then(res => {
 					this.data = res.body;
