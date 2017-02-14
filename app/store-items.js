@@ -6,13 +6,13 @@ var state = {
 	//we've decided to keep all items in our state's 'all'
 	all: [
 		{
-			id: 2,
+			id: 1,
 			name: 'Example Item',
 			desc: 'Our getters are returning items with show=true.',
 			show: true
 		},
 		{
-			id: 10,
+			id: 0,
 			name: 'Another Example Item',
 			desc: 'This won\'t show, since show is set to false.',
 			show: false
@@ -67,7 +67,14 @@ var mutations = {
 
 	//simply takes a payload of 'item' and appends to our state's 'all' array
 	add: function(state, payload) {
+		payload.id = state.all.length;
 		state.all.push(payload);
+	},
+
+	remove: function(state, payload) {
+		state.all = state.all.filter(function(item) {
+			return item.id !== payload.id;
+		});
 	}
 
 };
@@ -85,6 +92,10 @@ var actions = {
 
 	add: function(context, payload) {
 		context.commit('add', payload)
+	},
+
+	remove: function(context, payload) {
+		context.commit('remove', payload)
 	}
 
 };

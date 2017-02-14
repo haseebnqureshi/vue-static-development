@@ -52,6 +52,11 @@ var router = new VueRouter({
 			name: 'list-item', 
 			component: require('./list-item.vue'),
 			// meta: { auth: true }
+		},
+		{
+			path: '/items',
+			name: 'items',
+			component: require('./items.vue')
 		}
 	],
 	scrollBehavior: function(to, from, savedPosition) {
