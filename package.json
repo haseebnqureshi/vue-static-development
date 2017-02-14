@@ -23,7 +23,8 @@
     "vue": "^2.1.10",
     "vue-resource": "^1.2.0",
     "vue-router": "^2.2.0",
-    "vueify": "^9.4.0"
+    "vueify": "^9.4.0",
+    "vuex": "^2.1.2"
   },
   "browser": {
     "vue": "vue/dist/vue.common"

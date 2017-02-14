@@ -8,7 +8,7 @@ Deps
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var VueResource = require('vue-resource');
-
+var Vuex = require('vuex');
 
 /*===================
 Configuring Vue			
@@ -16,6 +16,18 @@ Configuring Vue
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
+Vue.use(Vuex);
+
+
+/*===================
+Configuring Store			
+====================*/
+
+var store = new Vuex.Store({
+	modules: {
+		items: require('./store-items.js')
+	}
+});
 
 
 /*===================
@@ -65,6 +77,7 @@ Instantiating Application
 ====================*/
 
 var app = new Vue({
+	store,
 	router,
 	// data: {
 	// 	message: 'Hello, from Vue!'
